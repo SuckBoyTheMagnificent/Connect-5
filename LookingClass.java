@@ -57,6 +57,7 @@ public class LookingClass
     			{
     				win = true;
     				found = true;
+    				break;
     			} 
     			else
     			{
@@ -88,6 +89,7 @@ public class LookingClass
     			{
     				win = true;
     				found = true;
+    				break;
     			} 
     			else
     			{
@@ -121,6 +123,7 @@ public class LookingClass
     			{
     				win = true;
     				found = true;
+    				break;
     			} 
     			else
     			{
@@ -154,6 +157,7 @@ public class LookingClass
     			{
     				win = true;
     				found = true;
+    				break;
     			} 
     			else
     			{
@@ -185,6 +189,7 @@ public class LookingClass
     			{
     				win = true;
     				found = true;
+    				break;
     			} 
     			else
     			{
@@ -195,8 +200,8 @@ public class LookingClass
     		x = tempX;
 			y = tempY;
 			z = tempZ;
-    		if (look(myBoard, z+1, x+1, y+1, t) == true || look(myBoard, z-1, x-1, y-1, t) == true)  // Looks multifloor diagonal for up floor, down row, right 	udr
-    		{																						 // or down floor, up row, left									dul
+    		if (look(myBoard, z+1, x+1, y+1, t) == true || look(myBoard, z-1, x-1, y-1, t) == true)  // Looks multiple floor diagonal for up floor, down row, right
+    		{																						 // or down floor, up row, left	
     			winCounter = 1;
     			while (look(myBoard, z+1, x+1, y+1, t) == true)
     			{
@@ -220,6 +225,7 @@ public class LookingClass
     			{
     				win = true;
     				found = true;
+    				break;
     			} 
     			else
     			{
@@ -230,8 +236,8 @@ public class LookingClass
     		x = tempX;
 			y = tempY;
 			z = tempZ;
-    		if (look(myBoard, z+1, x-1, y-1, t) == true || look(myBoard, z-1, x+1, y+1, t) == true)  // Looks multifloor diagonal for up floor, up row, left	uul
-    		{																						 // or down floor, down row, right							ddr
+    		if (look(myBoard, z+1, x-1, y-1, t) == true || look(myBoard, z-1, x+1, y+1, t) == true)  // Looks multiple floor diagonal for up floor, up row, left
+    		{																						 // or down floor, down row, right
     			winCounter = 1;
     			while (look(myBoard, z+1, x-1, y-1, t) == true)
     			{
@@ -255,6 +261,7 @@ public class LookingClass
     			{
     				win = true;
     				found = true;
+    				break;
     			} 
     			else
     			{
@@ -265,8 +272,8 @@ public class LookingClass
     		x = tempX;
 			y = tempY;
 			z = tempZ;
-    		if (look(myBoard, z+1, x-1, y+1, t) == true || look(myBoard, z-1, x+1, y-1, t) == true)  // Looks multifloor diagonal for up floor, up row, right 			uur
-    		{																						 // or down floor, down row, left									ddl
+    		if (look(myBoard, z+1, x-1, y+1, t) == true || look(myBoard, z-1, x+1, y-1, t) == true)  // Looks multiple floor diagonal for up floor, up row, right
+    		{																						 // or down floor, down row, left
     			winCounter = 1;
     			while (look(myBoard, z+1, x-1, y+1, t) == true)
     			{
@@ -290,6 +297,7 @@ public class LookingClass
     			{
     				win = true;
     				found = true;
+    				break;
     			} 
     			else
     			{
@@ -300,8 +308,8 @@ public class LookingClass
     		x = tempX;
 			y = tempY;
 			z = tempZ;
-    		if (look(myBoard, z+1, x+1, y-1, t) == true || look(myBoard, z-1, x-1, y+1, t) == true)  // Looks multifloor diagonal for up floor, down row, left	udl
-    		{																						 // or down floor, up row, right							dur
+    		if (look(myBoard, z+1, x+1, y-1, t) == true || look(myBoard, z-1, x-1, y+1, t) == true)  // Looks multiple floor diagonal for up floor, down row, left
+    		{																						 // or down floor, up row, right
     			winCounter = 1;
     			while (look(myBoard, z+1, x+1, y-1, t) == true)
     			{
@@ -325,6 +333,7 @@ public class LookingClass
     			{
     				win = true;
     				found = true;
+    				break;
     			} 
     			else
     			{
