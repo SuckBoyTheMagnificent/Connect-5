@@ -43,14 +43,35 @@ public class LookingClass
     			{
     				winCounter++;
     				y++;
+    				if (look(myBoard, z, x, 0, t) == true && y == myBoard.length-1)
+    				{
+    				    y = 0;
+    				    winCounter++;
+    				}
+    				if (y+1 >= myBoard.length) //NOW GARBAGE
+    				{
+    				    y = 0;
+    				    if (look(myBoard, z, x, y, t) == true)
+    				    {
+    				        winCounter++;
+    				    }
+    				}
     			}
     			x = tempX;
     			y = tempY;
     			z = tempZ;
-    			while (look(myBoard, z, x, y - 1, t) == true) 
+    			while (look(myBoard, z, x, y - 1, t) == true || (look(myBoard, z, x, myBoard.length-1, t) == true && y == 0)) 
     			{
     				winCounter++;
     				y--;
+    				if (y == 0 || y == -1)
+    				{
+    				    y = myBoard.length-1;
+    				    if (look(myBoard, z, x, y, t) == true)
+    				    {
+    				        winCounter++;
+    				    }
+    				}
 	            }  
     			System.out.println("Win counter: " + winCounter);
     			if (winCounter >= 5)
@@ -75,6 +96,14 @@ public class LookingClass
     			{
     				winCounter++;
     				x++;
+    				if (x+1 == myBoard.length)
+    				{
+    				    x = 0;
+    				    if (look(myBoard, z, x, y, t) == true)
+    				    {
+    				        winCounter++;
+    				    }
+    				}
     			}
     			x = tempX;
     			y = tempY;
@@ -83,6 +112,14 @@ public class LookingClass
     			{
     				winCounter++;
     				x--;
+    				if (x == 0)
+    				{
+    				    x = myBoard.length-1;
+    				    if (look(myBoard, z, x, y, t) == true)
+    				    {
+    				        winCounter++;
+    				    }
+    				}
     			}  
     			System.out.println("Win counter: " + winCounter);
     			if (winCounter >= 5)
