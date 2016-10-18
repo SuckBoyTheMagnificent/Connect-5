@@ -27,6 +27,49 @@ public class LookingClass
         }
     }
     
+    public boolean wrap(int[][][] myBoard, int z, int x, int y, int t)
+    {
+        if ((y == myBoard.length-1 && myBoard[z][x][0] == t) || (y == 0 && myBoard[z][x][myBoard.length-1] == t)) //Horizontal
+        {
+            return true;
+        }
+        else if ((x == myBoard.length-1 && myBoard[z][0][y] == t) || (x == 0 && myBoard[z][myBoard.length-1][y] == t)) //Vertical Rows
+        {
+            return true;
+        }
+        else if ((z == myBoard.length-1 && myBoard[0][x][y] == t) || (z == 0 && myBoard[myBoard.length-1][x][y] == t)) //Vertical Floors
+        {
+            return true;
+        }
+        else if ((x == myBoard.length-1 && myBoard[z][0][y] == t) || (x == 0 && myBoard[z][myBoard.length-1][y] == t)) //Diagonal One Floor FIXME
+        {
+            return true;
+        }
+        else if ((x == myBoard.length-1 && myBoard[z][0][y] == t) || (x == 0 && myBoard[z][myBoard.length-1][y] == t)) //Other Diagonal One Floor FIXME
+        {
+            return true;
+        }
+        else if ((x == myBoard.length-1 && myBoard[z][0][y] == t) || (x == 0 && myBoard[z][myBoard.length-1][y] == t)) //Diagonal multiple floor FIXME
+        {
+            return true;
+        }
+        else if ((x == myBoard.length-1 && myBoard[z][0][y] == t) || (x == 0 && myBoard[z][myBoard.length-1][y] == t)) // Other Diagonal multiple floor FIXME
+        {
+            return true;
+        }
+        else if ((x == myBoard.length-1 && myBoard[z][0][y] == t) || (x == 0 && myBoard[z][myBoard.length-1][y] == t)) // Other Diagonal multiple floor FIXME
+        {
+            return true;
+        }
+        else if ((x == myBoard.length-1 && myBoard[z][0][y] == t) || (x == 0 && myBoard[z][myBoard.length-1][y] == t)) // Other Diagonal multiple floor FIXME
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
     //Use this method to check for win conditions//  
     public void check(int[][][]myBoard, int z, int x, int y, int t)
 	{
@@ -36,9 +79,14 @@ public class LookingClass
     		int tempX = x;
     		int tempY = y;
     		int tempZ = z;
-    		if (look(myBoard, z, x, y+1, t) == true || look(myBoard, z, x, y-1, t) == true)  // Looks left and right
+    		if (look(myBoard, z, x, y+1, t) == true || look(myBoard, z, x, y-1, t) == true || wrap(myBoard, z, x, y, t) == true)  // Looks left and right
     		{
     			winCounter = 1;
+    			if (look(myBoard, z, x, 0, t) == true && y == myBoard.length-1)
+    				{
+    				    y = 0;
+    				    winCounter++;
+    				}
     			while (look(myBoard, z, x, y+1, t) == true)
     			{
     				winCounter++;
@@ -48,29 +96,23 @@ public class LookingClass
     				    y = 0;
     				    winCounter++;
     				}
-    				if (y+1 >= myBoard.length) //NOW GARBAGE
-    				{
-    				    y = 0;
-    				    if (look(myBoard, z, x, y, t) == true)
-    				    {
-    				        winCounter++;
-    				    }
-    				}
     			}
     			x = tempX;
     			y = tempY;
     			z = tempZ;
+    			if (look(myBoard, z, x, myBoard.length-1, t) == true && y == 0)
+    				{
+    				    y = myBoard.length-1;
+    				    winCounter++;
+    				}
     			while (look(myBoard, z, x, y - 1, t) == true || (look(myBoard, z, x, myBoard.length-1, t) == true && y == 0)) 
     			{
     				winCounter++;
     				y--;
-    				if (y == 0 || y == -1)
+    				if (look(myBoard, z, x, myBoard.length-1, t) == true && y == 0)
     				{
     				    y = myBoard.length-1;
-    				    if (look(myBoard, z, x, y, t) == true)
-    				    {
-    				        winCounter++;
-    				    }
+    				    winCounter++;
     				}
 	            }  
     			System.out.println("Win counter: " + winCounter);
