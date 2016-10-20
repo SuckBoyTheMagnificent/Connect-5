@@ -5,6 +5,8 @@ public class AI
     int turnNum;
     String name;
     AI [] aiArray;
+    int[][][] myLocations;
+    LookingClass myLooker = new LookingClass(0);
     
     public AI (String name, int turnNum)
     {
@@ -70,6 +72,49 @@ public class AI
     	else
     	{
     		myBoard[z][x][y] = getAINum(t);
+    	}
+    }
+    
+    //Hopeful "Pruning"//
+    public boolean alphaBeta (int [][][] myBoard, int z, int x, int y, int t)
+    {
+    	myLocations = new int[myBoard.length][myBoard.length][myBoard.length];
+    	while(z < myBoard.length)
+    	{
+    		for (int i = 0; i < myBoard.length; i++)
+    		{
+    			for(int j = 0; j < myBoard.length; j++)
+    			{
+    				if(myBoard[z][i][j] != t && myBoard[z][i][j] != 0)
+    				{
+    					myLocations[z][i][j] = myBoard[z][i][j];
+    					myLooker.check(myLocations, z, i, j, t);
+    					if(myLooker.winCounter == 4)
+    					{
+    						place(myLocations, z, i,j, t);
+    						return true;
+    					}
+    				}
+    			}
+    		}
+    		z++;
+    	}
+    	printAIBoard(myLocations);
+    	return false;
+    }
+    public void printAIBoard(int[][][]myBoard)
+    {
+    	for(int z = 0; z < myBoard.length; z++)
+    	{
+    		for(int x = 0; x < myBoard.length; x++)
+    		{
+    			for(int y = 0; y < myBoard.length; y++)
+    			{
+    				System.out.print(myBoard[z][x][y]);
+    			}
+    			System.out.println();
+    		}
+    		System.out.println();
     	}
     }
 }

@@ -83,12 +83,25 @@ public class Test
 	            	{
 	            		try
 	            		{
-			                System.out.println(myHumans.getHumanName(turns) + "'s turn.");
-			                System.out.println("Select your desired move location: (X, Y)");
-			                System.out.println("Enter your X coordinate: ");
-			                x = Integer.parseInt(myScanner.nextLine());
-			                System.out.println("Enter your Y coordinate: ");
-			                y = Integer.parseInt(myScanner.nextLine());
+	            			boolean inBounds = false;
+	            			while(!inBounds)
+	            			{
+				                System.out.println(myHumans.getHumanName(turns) + "'s turn.");
+				                System.out.println("Select your desired move location: (X, Y)");
+				                System.out.println("Enter your X coordinate: ");
+				                x = Integer.parseInt(myScanner.nextLine()) -1;
+				                System.out.println("Enter your Y coordinate: ");
+				                y = Integer.parseInt(myScanner.nextLine()) -1;				                
+				                if(x > boardSize || x < 0 || y > boardSize || y <0)
+				                {
+				                	System.out.println("At least one of your inputs was out of bounds.");
+				                	inBounds = false;
+				                }
+				                else 
+				                {
+				                	inBounds = true;
+				                }
+	            			}
 			                z = 0;
 			                if (board[z][x][y] != 0)
 			                {
@@ -157,7 +170,11 @@ public class Test
                 	boolean went = false;
                 	while(AIturns < numAI && !went)
                 	{
-                		myAI.place(board, z, x, y, AIturns);
+                		//myAI.place(board, z, x, y, AIturns); //Used to be place// FIXME
+                		if (myAI.alphaBeta(board, z, x, y, AIturns) == false)
+                		{
+                			myAI.place(board, z, x, y, AIturns);
+                		}
                 		myLooker.check(board, z, x, y, myAI.getAINum(AIturns));
                 		if(myLooker.win == true)
                 		{
@@ -192,7 +209,9 @@ public class Test
                 		}
                 	}
                 }
-                
+                //System.out.println("AI prune Board begins!!!");
+                //myAI.alphaBeta(board, z, x, y, myAI.getAINum(AIturns-1)); //FIXME
+                //System.out.println("AI prune Board ends!!!");
                 if ((turns + AIturns) == (numHumans + numAI)) //Reset turn counters for next full turn
                 {
                     turns = 0;
