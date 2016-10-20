@@ -26,7 +26,7 @@ public class LookingClass
             return true;
         }
     }
-    
+    //Check for wrapping possibilities//
     public boolean wrap(int[][][] myBoard, int z, int x, int y, int t)
     {
         if ((y == myBoard.length-1 && myBoard[z][x][0] == t) || (y == 0 && myBoard[z][x][myBoard.length-1] == t)) //Horizontal
@@ -41,27 +41,27 @@ public class LookingClass
         {
             return true;
         }
-        else if ((x == myBoard.length-1 && myBoard[z][0][y] == t) || (x == 0 && myBoard[z][myBoard.length-1][y] == t)) //Diagonal One Floor FIXME
+        else if ((y == myBoard.length-1 && x == myBoard.length-1 && myBoard[z][0][0] == t) || (y == 0 && x == 0 && myBoard[z][myBoard.length-1][myBoard.length-1] == t)) //Diagonal One Floor 
         {
             return true;
         }
-        else if ((x == myBoard.length-1 && myBoard[z][0][y] == t) || (x == 0 && myBoard[z][myBoard.length-1][y] == t)) //Other Diagonal One Floor FIXME
+        else if ((y == 0 && x == myBoard.length-1 && myBoard[z][0][myBoard.length-1] == t) || (y == myBoard.length-1 && x == 0 && myBoard[z][myBoard.length-1][0] == t)) //Other Diagonal One Floor 
         {
             return true;
         }
-        else if ((x == myBoard.length-1 && myBoard[z][0][y] == t) || (x == 0 && myBoard[z][myBoard.length-1][y] == t)) //Diagonal multiple floor FIXME
+        else if ((z == myBoard.length-1 && y == myBoard.length-1 && x == myBoard.length-1 && myBoard[0][0][0] == t) || (z == 0 && y == 0 && x == 0 && myBoard[myBoard.length-1][myBoard.length-1][myBoard.length-1] == t)) //Diagonal Multiple Floor 
         {
             return true;
         }
-        else if ((x == myBoard.length-1 && myBoard[z][0][y] == t) || (x == 0 && myBoard[z][myBoard.length-1][y] == t)) // Other Diagonal multiple floor FIXME
+        else if ((z == myBoard.length-1 && y == 0 && x == myBoard.length-1 && myBoard[0][0][myBoard.length-1] == t) || ( z == 0 && y == myBoard.length-1 && x == 0 && myBoard[myBoard.length-1][myBoard.length-1][0] == t)) //Other Diagonal Multiple Floor 
         {
             return true;
         }
-        else if ((x == myBoard.length-1 && myBoard[z][0][y] == t) || (x == 0 && myBoard[z][myBoard.length-1][y] == t)) // Other Diagonal multiple floor FIXME
+        else if ((z == 0 && y == myBoard.length-1 && x == myBoard.length-1 && myBoard[myBoard.length-1][0][0] == t) || (z == myBoard.length-1 && y == 0 && x == 0 && myBoard[0][myBoard.length-1][myBoard.length-1] == t)) //Diagonal Multiple Floor 
         {
             return true;
         }
-        else if ((x == myBoard.length-1 && myBoard[z][0][y] == t) || (x == 0 && myBoard[z][myBoard.length-1][y] == t)) // Other Diagonal multiple floor FIXME
+        else if ((z == 0 && y == 0 && x == myBoard.length-1 && myBoard[myBoard.length-1][0][myBoard.length-1] == t) || ( z == myBoard.length-1 && y == myBoard.length-1 && x == 0 && myBoard[0][myBoard.length-1][0] == t)) //Other Diagonal Multiple Floor 
         {
             return true;
         }
@@ -70,7 +70,7 @@ public class LookingClass
             return false;
         }
     }
-    //Use this method to check for win conditions//  
+    //Use to check for win conditions//
     public void check(int[][][]myBoard, int z, int x, int y, int t)
 	{
     	boolean found = false;
@@ -83,10 +83,10 @@ public class LookingClass
     		{
     			winCounter = 1;
     			if (look(myBoard, z, x, 0, t) == true && y == myBoard.length-1)
-    				{
-    				    y = 0;
-    				    winCounter++;
-    				}
+    			{
+				    y = 0;
+				    winCounter++;
+    			}
     			while (look(myBoard, z, x, y+1, t) == true)
     			{
     				winCounter++;
@@ -101,11 +101,11 @@ public class LookingClass
     			y = tempY;
     			z = tempZ;
     			if (look(myBoard, z, x, myBoard.length-1, t) == true && y == 0)
-    				{
-    				    y = myBoard.length-1;
-    				    winCounter++;
-    				}
-    			while (look(myBoard, z, x, y - 1, t) == true || (look(myBoard, z, x, myBoard.length-1, t) == true && y == 0)) 
+    			{
+				    y = myBoard.length-1;
+				    winCounter++;
+    			}
+    			while (look(myBoard, z, x, y - 1, t) == true) 
     			{
     				winCounter++;
     				y--;
@@ -131,36 +131,40 @@ public class LookingClass
     		x = tempX;
 			y = tempY;
 			z = tempZ;
-    		if (look(myBoard, z, x+1, y, t) == true || look(myBoard, z, x-1, y, t) == true)  // Looks up and down rows
+    		if (look(myBoard, z, x+1, y, t) == true || look(myBoard, z, x-1, y, t) == true || wrap(myBoard, z, x, y, t) == true)  // Looks up and down rows
     		{
     			winCounter = 1;
+    			if (look(myBoard, z, 0, y, t) == true && x == myBoard.length-1)
+				{
+				    x = 0;
+				    winCounter++;
+				}
     			while (look(myBoard, z, x+1, y, t) == true)
     			{
     				winCounter++;
     				x++;
-    				if (x+1 == myBoard.length)
+    				if (look(myBoard, z, 0, y, t) == true && x == myBoard.length-1)
     				{
     				    x = 0;
-    				    if (look(myBoard, z, x, y, t) == true)
-    				    {
-    				        winCounter++;
-    				    }
+    				    winCounter++;
     				}
     			}
     			x = tempX;
     			y = tempY;
     			z = tempZ;
+    			if (look(myBoard, z, myBoard.length-1, y, t) == true && x == 0)
+				{
+				    x = myBoard.length-1;
+				    winCounter++;
+				}
     			while (look(myBoard, z, x-1, y, t) == true)
     			{
     				winCounter++;
     				x--;
-    				if (x == 0)
+    				if (look(myBoard, z, myBoard.length-1, y, t) == true && x == 0)
     				{
     				    x = myBoard.length-1;
-    				    if (look(myBoard, z, x, y, t) == true)
-    				    {
-    				        winCounter++;
-    				    }
+    				    winCounter++;
     				}
     			}  
     			System.out.println("Win counter: " + winCounter);
@@ -179,23 +183,47 @@ public class LookingClass
     		x = tempX;
 			y = tempY;
 			z = tempZ;
-    		if (look(myBoard, z, x+1, y+1, t) == true || look(myBoard, z, x-1, y-1, t) == true)  // Looks Diagonally on one row
+    		if (look(myBoard, z, x+1, y+1, t) == true || look(myBoard, z, x-1, y-1, t) == true || wrap(myBoard, z, x, y, t) == true)  // Looks Diagonally on one row
     		{
     			winCounter = 1;
+    			if (look(myBoard, z, 0, 0, t) == true && x == myBoard.length-1 && y == myBoard.length-1)
+				{
+				    x = 0;
+				    y = 0;
+				    winCounter++;
+				}
     			while (look(myBoard, z, x+1, y+1, t) == true)
     			{
     				winCounter++;
     				x++;
     				y++;
+    				if (look(myBoard, z, 0, 0, t) == true && x == myBoard.length-1 && y == myBoard.length-1)
+    				{
+    				    x = 0;
+    				    y = 0;
+    				    winCounter++;
+    				}
     			}
     			x = tempX;
     			y = tempY;
     			z = tempZ;
+    			if (look(myBoard, z, myBoard.length-1, myBoard.length-1, t) == true && x == 0 && y == 0)
+				{
+					x = myBoard.length-1;
+    				y = myBoard.length-1;
+				    winCounter++;
+				}
     			while (look(myBoard, z, x-1, y-1, t) == true) 
     			{
     				winCounter++;
     				x--;
     				y--;
+    				if (look(myBoard, z, myBoard.length-1, myBoard.length-1, t) == true && x == 0 && y == 0)
+    				{
+    					x = myBoard.length-1;
+        				y = myBoard.length-1;
+    				    winCounter++;
+    				}
     			}  
     			System.out.println("Win counter: " + winCounter);
     			if (winCounter >= 5)
@@ -213,23 +241,47 @@ public class LookingClass
     		x = tempX;
 			y = tempY;
 			z = tempZ;
-    		if (look(myBoard, z, x+1, y-1, t) == true || look(myBoard, z, x-1, y+1, t) == true)  // Looks other diagonal on one row
+    		if (look(myBoard, z, x+1, y-1, t) == true || look(myBoard, z, x-1, y+1, t) == true || wrap(myBoard, z, x, y, t) == true)  // Looks other diagonal on one row
     		{
     			winCounter = 1;
+    			if (look(myBoard, z, 0, myBoard.length-1, t) == true && x == myBoard.length-1 && y == 0)
+				{
+    				x = 0;
+    				y = myBoard.length-1; 
+				    winCounter++;
+				}
     			while (look(myBoard, z, x+1, y-1, t) == true)
     			{
     				winCounter++;
     				x++;
     				y--;
+    				if (look(myBoard, z, 0, myBoard.length-1, t) == true && x == myBoard.length-1 && y == 0)
+    				{
+    					x = 0;
+        				y = myBoard.length-1; 
+    				    winCounter++;
+    				}
     			}
     			x = tempX;
     			y = tempY;
     			z = tempZ;
+    			if (look(myBoard, z, myBoard.length-1, 0, t) == true && x == 0 &&  y == myBoard.length-1)
+				{
+    				x = myBoard.length-1; 
+    				y = 0;
+				    winCounter++;
+				}
     			while (look(myBoard, z, x-1, y+1, t) == true) 
     			{
     				winCounter++;
     				x--;
     				y++;
+    				if (look(myBoard, z, myBoard.length-1, 0, t) == true && x == 0 &&  y == myBoard.length-1)
+    				{
+        				x = myBoard.length-1; 
+        				y = 0;
+    				    winCounter++;
+    				}
     			}  
     			System.out.println("Win counter: " + winCounter);
     			if (winCounter >= 5)
@@ -247,21 +299,41 @@ public class LookingClass
     		x = tempX;
 			y = tempY;
 			z = tempZ;
-    		if (look(myBoard, z+1, x, y, t) == true || look(myBoard, z-1, x, y, t) == true)  // Looks vertical over floors, checking up floors might be unnecessary
+    		if (look(myBoard, z+1, x, y, t) == true || look(myBoard, z-1, x, y, t) == true || wrap(myBoard, z, x, y, t) == true)  // Looks vertical over floors, checking up floors might be unnecessary
     		{
     			winCounter = 1;
+    			if (look(myBoard, 0, x, y, t) == true && z == myBoard.length-1)
+    			{
+    				z = 0;
+    				winCounter++;
+    			}
     			while (look(myBoard, z+1, x, y, t) == true)
     			{
     				winCounter++;
     				z++;
+    				if (look(myBoard, 0, x, y, t) == true && z == myBoard.length-1)
+        			{
+        				z = 0;
+        				winCounter++;
+        			}
     			}
     			x = tempX;
     			y = tempY;
     			z = tempZ;
+    			if (look(myBoard,myBoard.length-1, x, y ,t) == true && z == 0)
+    			{
+    				z = myBoard.length-1;
+    				winCounter++;
+    			}
     			while (look(myBoard, z-1, x, y, t) == true) 
     			{
     				winCounter++;
     				z--;
+    				if (look(myBoard,myBoard.length-1, x, y ,t) == true && z == 0)
+        			{
+        				z = myBoard.length-1;
+        				winCounter++;
+        			}
     			}  
     			System.out.println("Win counter: " + winCounter);
     			if (winCounter >= 5)
@@ -279,25 +351,53 @@ public class LookingClass
     		x = tempX;
 			y = tempY;
 			z = tempZ;
-    		if (look(myBoard, z+1, x+1, y+1, t) == true || look(myBoard, z-1, x-1, y-1, t) == true)  // Looks multiple floor diagonal for up floor, down row, right
-    		{																						 // or down floor, up row, left	
+    		if (look(myBoard, z+1, x+1, y+1, t) == true || look(myBoard, z-1, x-1, y-1, t) == true || wrap(myBoard, z, x, y, t) == true)  // Looks multiple floor diagonal for up floor, down row, right
+    		{																															  // or down floor, up row, left	
     			winCounter = 1;
+    			if (look(myBoard, 0, 0, 0, t) == true && z == myBoard.length-1 && x == myBoard.length-1 && y ==myBoard.length-1)
+    			{
+    				z = 0;
+    				x = 0;
+    				y = 0;
+    				winCounter++;
+    			}
     			while (look(myBoard, z+1, x+1, y+1, t) == true)
     			{
     				winCounter++;
     				z++;
     				x++;
     				y++;
+    				if (look(myBoard, 0, 0, 0, t) == true && z == myBoard.length-1 && x == myBoard.length-1 && y == myBoard.length-1)
+        			{
+        				z = 0;
+        				x = 0;
+        				y = 0;
+        				winCounter++;
+        			}
     			}
     			x = tempX;
     			y = tempY;
     			z = tempZ;
+    			if (look(myBoard, myBoard.length-1 ,myBoard.length-1, myBoard.length-1, t) == true && z == 0 && x == 0 && y == 0)
+    			{
+    				z = myBoard.length-1;
+    				x = myBoard.length-1;
+    				y = myBoard.length-1;
+    				winCounter++;
+    			}
     			while (look(myBoard, z-1, x-1, y-1, t) == true)
     			{
     				winCounter++;
     				z--;
     				x--;
     				y--;
+    				if (look(myBoard, myBoard.length-1 ,myBoard.length-1, myBoard.length-1, t) == true && z == 0 && x == 0 && y == 0)
+        			{
+        				z = myBoard.length-1;
+        				x = myBoard.length-1;
+        				y = myBoard.length-1;
+        				winCounter++;
+        			}
     			}  
     			System.out.println("Win counter: " + winCounter);
     			if (winCounter >= 5)
@@ -315,25 +415,53 @@ public class LookingClass
     		x = tempX;
 			y = tempY;
 			z = tempZ;
-    		if (look(myBoard, z+1, x-1, y-1, t) == true || look(myBoard, z-1, x+1, y+1, t) == true)  // Looks multiple floor diagonal for up floor, up row, left
-    		{																						 // or down floor, down row, right
+    		if (look(myBoard, z+1, x-1, y-1, t) == true || look(myBoard, z-1, x+1, y+1, t) == true || wrap(myBoard, z, x, y, t) == true)  // Looks multiple floor diagonal for up floor, up row, left
+    		{																															  // or down floor, down row, right
     			winCounter = 1;
+    			if(look(myBoard, 0, myBoard.length-1, myBoard.length-1, t) == true && z == myBoard.length-1 && x == 0 && y == 0)
+    			{
+    				z = 0;
+    				x = myBoard.length-1;
+    				y = myBoard.length-1;
+    				winCounter++;
+    			}
     			while (look(myBoard, z+1, x-1, y-1, t) == true)
     			{
     				winCounter++;
     				z++;
     				x--;
     				y--;
+    				if(look(myBoard, 0, myBoard.length-1, myBoard.length-1, t) == true && z == myBoard.length-1 && x == 0 && y == 0)
+        			{
+        				z = 0;
+        				x = myBoard.length-1;
+        				y = myBoard.length-1;
+        				winCounter++;
+        			}
     			}
     			x = tempX;
     			y = tempY;
     			z = tempZ;
+    			if(look(myBoard, myBoard.length-1, 0, 0, t) == true && z == 0 && x == myBoard.length-1 && y == myBoard.length-1)
+    			{
+    				z = myBoard.length-1;
+    				x = 0;
+    				y = 0;
+    				winCounter++;
+    			}
     			while (look(myBoard, z-1, x+1, y+1, t) == true)
     			{
     				winCounter++;
     				z--;
     				x++;
     				y++;
+    				if(look(myBoard, myBoard.length-1, 0, 0, t) == true && z == 0 && x == myBoard.length-1 && y == myBoard.length-1)
+        			{
+        				z = myBoard.length-1;
+        				x = 0;
+        				y = 0;
+        				winCounter++;
+        			}
     			}  
     			System.out.println("Win counter: " + winCounter);
     			if (winCounter >= 5)
@@ -351,25 +479,53 @@ public class LookingClass
     		x = tempX;
 			y = tempY;
 			z = tempZ;
-    		if (look(myBoard, z+1, x-1, y+1, t) == true || look(myBoard, z-1, x+1, y-1, t) == true)  // Looks multiple floor diagonal for up floor, up row, right
-    		{																						 // or down floor, down row, left
+    		if (look(myBoard, z+1, x-1, y+1, t) == true || look(myBoard, z-1, x+1, y-1, t) == true || wrap(myBoard, z, x, y, t) == true)  // Looks multiple floor diagonal for up floor, up row, right
+    		{																						 									  // or down floor, down row, left
     			winCounter = 1;
+    			if(look(myBoard, 0, myBoard.length-1, 0, t) == true && z == myBoard.length-1 && x == 0 && y == myBoard.length-1)
+    			{
+    				z = 0;
+    				x = myBoard.length-1;
+    				y = 0;
+    				winCounter++;
+    			}
     			while (look(myBoard, z+1, x-1, y+1, t) == true)
     			{
     				winCounter++;
     				z++;
     				x--;
     				y++;
+    				if(look(myBoard, 0, myBoard.length-1, 0, t) == true && z == myBoard.length-1 && x == 0 && y == myBoard.length-1)
+        			{
+        				z = 0;
+        				x = myBoard.length-1;
+        				y = 0;
+        				winCounter++;
+        			}
     			}
     			x = tempX;
     			y = tempY;
     			z = tempZ;
+    			if(look(myBoard, myBoard.length-1, 0, myBoard.length-1, t) == true && z == 0 && x == myBoard.length-1 && y == 0)
+    			{
+    				z = myBoard.length-1;
+    				x = 0;
+    				y = myBoard.length-1;
+    				winCounter++;
+    			}
     			while (look(myBoard, z-1, x+1, y-1, t) == true)
     			{
     				winCounter++;
     				z--;
     				x++;
     				y--;
+    				if(look(myBoard, myBoard.length-1, 0, myBoard.length-1, t) == true && z == 0 && x == myBoard.length-1 && y == 0)
+        			{
+        				z = myBoard.length-1;
+        				x = 0;
+        				y = myBoard.length-1;
+        				winCounter++;
+        			}
     			}  
     			System.out.println("Win counter: " + winCounter);
     			if (winCounter >= 5)
@@ -387,25 +543,53 @@ public class LookingClass
     		x = tempX;
 			y = tempY;
 			z = tempZ;
-    		if (look(myBoard, z+1, x+1, y-1, t) == true || look(myBoard, z-1, x-1, y+1, t) == true)  // Looks multiple floor diagonal for up floor, down row, left
-    		{																						 // or down floor, up row, right
+    		if (look(myBoard, z+1, x+1, y-1, t) == true || look(myBoard, z-1, x-1, y+1, t) == true || wrap(myBoard, z, x, y, t) == true)  // Looks multiple floor diagonal for up floor, down row, left
+    		{																						 									  // or down floor, up row, right
     			winCounter = 1;
+    			if(look(myBoard, 0, 0, myBoard.length-1, t) == true && z == myBoard.length-1 && x == myBoard.length-1 && y == 0)
+    			{
+    				z = 0;
+    				x = 0;
+    				y = myBoard.length-1;
+    				winCounter++;
+    			}
     			while (look(myBoard, z+1, x+1, y-1, t) == true)
     			{
     				winCounter++;
     				z++;
     				x++;
     				y--;
+    				if(look(myBoard, 0, 0, myBoard.length-1, t) == true && z == myBoard.length-1 && x == myBoard.length-1 && y == 0)
+        			{
+        				z = 0;
+        				x = 0;
+        				y = myBoard.length-1;
+        				winCounter++;
+        			}
     			}
     			x = tempX;
     			y = tempY;
     			z = tempZ;
+    			if(look(myBoard, myBoard.length-1, myBoard.length-1, 0, t) == true && z == 0 && x == 0 && y == myBoard.length-1)
+    			{
+    				z = myBoard.length-1;
+    				x = myBoard.length-1;
+    				y = 0;
+    				winCounter++;
+    			}
     			while (look(myBoard, z-1, x-1, y+1, t) == true)
     			{
     				winCounter++;
     				z--;
     				x--;
     				y++;
+    				if(look(myBoard, myBoard.length-1, myBoard.length-1, 0, t) == true && z == 0 && x == 0 && y == myBoard.length-1)
+        			{
+        				z = myBoard.length-1;
+        				x = myBoard.length-1;
+        				y = 0;
+        				winCounter++;
+        			}
     			}  
     			System.out.println("Win counter: " + winCounter);
     			if (winCounter >= 5)

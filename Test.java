@@ -21,9 +21,6 @@ public class Test
         int[][][] board;
         boolean done = false;
         Scanner myScanner = new Scanner(System.in);
-        
-        try
-        {
         	
             //Board Creation, human and AI player creation
         	do
@@ -77,75 +74,81 @@ public class Test
                 myAI.addAI("AI: " + j, j);
                 System.out.println(myAI.getAIName(i));
             }
-            
             //Make moves and check for wins
-            while (!done)
-            {
+	        while (!done)
+	        {
             	if (numHumans > 0) //Human turns
             	{
 	            	do
 	            	{
-		                System.out.println(myHumans.getHumanName(turns) + "'s turn.");
-		                System.out.println("Select your desired move location: (X, Y)");
-		                System.out.println("Enter your X coordinate: ");
-		                x = Integer.parseInt(myScanner.nextLine());
-		                System.out.println("Enter your Y coordinate: ");
-		                y = Integer.parseInt(myScanner.nextLine());
-		                z = 0;
-		                if (board[z][x][y] != 0)
-		                {
-		                	boolean finished = false;
-		                	while (!finished && z < board.length && board[z][x][y] != 0)
-		                	{
-		                		z++;
-		                		if (z < board.length && board[z][x][y] == 0)
-		                		{
-		                			board[z][x][y] = myHumans.getHumanNum(turns);
-		                            finished = true;
-		                		}
-		                		else if (z == board.length)
-		                		{
-		                			System.out.println("Full");
-		                		}      			
-		                	} 
-		                }
-		                else
-		                {
-		                	board[z][x][y] = myHumans.getHumanNum(turns);
-		                }
-		            	
-		                myLooker.check(board, z, x, y, myHumans.getHumanNum(turns)); //Check for win
-		                
-		                if (myLooker.win == true)
-		                {
-		                    done = true;
-		                    System.out.println(myHumans.getHumanName(turns) + " won!");
-		                    myScanner.close();
-		                    
-		                    //Print final board
-		                    for (int floors = 0; floors < board.length; floors++)
-		                    {
-		                        for (int rows = 0; rows < board[floors].length; rows++)
-		                        {
-		                            for (int columns = 0; columns < board[floors][rows].length; columns++)
-		                            {
-		                                System.out.print(board[floors][rows][columns]);
-		                                if (columns + 1 == board[floors][rows].length)
-		                                {
-		                                    System.out.println(" ");
-		                                }
-		                            }
-		                            if (rows + 1 == board[floors].length)
-		                            {
-		                                System.out.println(" ");
-		                            }
-		                        }
-		                    }
-		                }
-		                else //End of human turns
-		                {
-		                	turns++;
-		                }
+	            		try
+	            		{
+			                System.out.println(myHumans.getHumanName(turns) + "'s turn.");
+			                System.out.println("Select your desired move location: (X, Y)");
+			                System.out.println("Enter your X coordinate: ");
+			                x = Integer.parseInt(myScanner.nextLine());
+			                System.out.println("Enter your Y coordinate: ");
+			                y = Integer.parseInt(myScanner.nextLine());
+			                z = 0;
+			                if (board[z][x][y] != 0)
+			                {
+			                	boolean finished = false;
+			                	while (!finished && z < board.length && board[z][x][y] != 0)
+			                	{
+			                		z++;
+			                		if (z < board.length && board[z][x][y] == 0)
+			                		{
+			                			board[z][x][y] = myHumans.getHumanNum(turns);
+			                            finished = true;
+			                		}
+			                		else if (z == board.length)
+			                		{
+			                			System.out.println("Full");
+			                		}      			
+			                	} 
+			                }
+			                else
+			                {
+			                	board[z][x][y] = myHumans.getHumanNum(turns);
+			                }
+			            	
+			                myLooker.check(board, z, x, y, myHumans.getHumanNum(turns)); //Check for win
+			                
+			                if (myLooker.win == true)
+			                {
+			                    done = true;
+			                    System.out.println(myHumans.getHumanName(turns) + " won!");
+			                    myScanner.close();
+			                    
+			                    //Print final board
+			                    for (int floors = 0; floors < board.length; floors++)
+			                    {
+			                        for (int rows = 0; rows < board[floors].length; rows++)
+			                        {
+			                            for (int columns = 0; columns < board[floors][rows].length; columns++)
+			                            {
+			                                System.out.print(board[floors][rows][columns]);
+			                                if (columns + 1 == board[floors][rows].length)
+			                                {
+			                                    System.out.println(" ");
+			                                }
+			                            }
+			                            if (rows + 1 == board[floors].length)
+			                            {
+			                                System.out.println(" ");
+			                            }
+			                        }
+			                    }
+			                }
+			                else //End of human turns
+			                {
+			                	turns++;
+			                }
+	            		}
+	            		catch (NumberFormatException e)
+	            		{
+	            			System.out.println("Invalid Option.");
+	            		}
 	            	} while(turns != numHumans && !done);
             	}
             	
@@ -218,12 +221,7 @@ public class Test
 	                    }
 	                }
                 }
-            }
-        }
-        catch (NumberFormatException myEx)
-        {
-            System.out.println("Invalid option.");
-        }
+	        }   
     }
 }
 
